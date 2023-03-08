@@ -17,4 +17,14 @@ class Event
   def food_trucks_that_sell(item)
     @food_trucks.select { |food_truck| food_truck.inventory.key?(item) }
   end
+
+  def all_items
+    @food_trucks.map do |food_truck|
+      food_truck.inventory.keys
+    end.flatten.uniq
+  end
+
+  def overstocked_items
+    
+  end
 end
