@@ -48,4 +48,15 @@ class Event
       food_trucks_that_sell(item).count > 1 && total_quantity(item) > 50
     end
   end
+
+  def sell(item, amount)
+    return false if total_quantity(item) < amount
+    @food_trucks.find do |food_truck|
+      if food_truck.inventory.key?(item)
+        food_truck.inventory[item] -= amount
+        break if food_truck.inventory[item] == 0
+      end
+    end
+    true
+  end
 end
