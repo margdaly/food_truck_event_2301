@@ -43,7 +43,9 @@ class Event
     end.to_h
   end
 
-  # def overstocked_items
-    
-  # end
+  def overstocked_items
+    all_items.select do |item|
+      food_trucks_that_sell(item).count > 1 && total_quantity(item) > 50
+    end
+  end
 end
