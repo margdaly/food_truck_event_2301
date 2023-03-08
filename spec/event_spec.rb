@@ -168,5 +168,15 @@ RSpec.describe Event do
       expect(@event.food_trucks.first.inventory).to eq(({ @item1 => 5, @item2 => 7 }))
       expect(@event.food_trucks.last.inventory).to eq({ @item1 => 65 })
     end
+
+    it 'depletes entire inventory of first added truck then reduce next added truck to satisfy order' do
+      @event.add_food_truck(@food_truck1)
+      @event.add_food_truck(@food_truck3)
+
+      @event.sell(@item1, 50)
+
+      expect(@event.food_trucks.first.inventory).to eq(({ @item2 => 7 }))
+      expect(@event.food_trucks.last.inventory).to eq({ @item1 => 50 })
+    end
   end
 end
