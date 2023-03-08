@@ -99,4 +99,30 @@ RSpec.describe Event do
       expect(@event.sorted_items_list).to eq(['Apple Pie (Slice)', 'Banana Nice Cream','Peach Pie (Slice)', 'Peach-Raspberry Nice Cream'])
     end
   end
+
+  describe '#total_inventory' do
+    it 'returns list of quantities of all items sold at the event' do
+      @event.add_food_truck(@food_truck1)
+      expect(@event.total_inventory).to eq({
+        @item1 => { 'quantity' => 35, 'food_trucks' => [@food_truck1] },
+        @item2 => { 'quantity' => 7, 'food_trucks' => [@food_truck1] }
+      })
+
+      @event.add_food_truck(@food_truck2)
+      expect(@event.total_inventory).to eq({
+        @item1 => { 'quantity' => 35, 'food_trucks' => [@food_truck1] },
+        @item2 => { 'quantity' => 7, 'food_trucks' => [@food_truck1] },
+        @item3 => { 'quantity' => 25, 'food_trucks' => [@food_truck2] },
+        @item4 => { 'quantity' => 50, 'food_trucks' => [@food_truck2] }
+      })
+
+      @event.add_food_truck(@food_truck3)
+      expect(@event.total_inventory).to eq({
+        @item1 => { 'quantity' => 100, 'food_trucks' => [@food_truck1, @food_truck3] },
+        @item2 => { 'quantity' => 7, 'food_trucks' => [@food_truck1] },
+        @item3 => { 'quantity' => 25, 'food_trucks' => [@food_truck2] },
+        @item4 => { 'quantity' => 50, 'food_trucks' => [@food_truck2] }
+      })
+    end
+  end
 end
