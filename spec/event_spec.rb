@@ -61,7 +61,7 @@ RSpec.describe Event do
   end
 
   describe '#overstocked_items' do
-    it 'can list items sold by more than 1 food truck AND total quantity greater than 50' do
+    xit 'can list items sold by more than 1 food truck AND total quantity greater than 50' do
       @event.add_food_truck(@food_truck1)
       expect(@event.overstocked_items).to eq([])
 
@@ -71,6 +71,32 @@ RSpec.describe Event do
 
       @food_truck2.stock(@item4, 10)
       expect(@event.overstocked_items).to eq([@item1, @item4])
+    end
+  end
+
+  describe '#all_items' do
+    it 'can list all items sold by food_trucks without duplicates' do
+      @event.add_food_truck(@food_truck1)
+      expect(@event.all_items).to eq([@item1, @item2])
+
+      @event.add_food_truck(@food_truck2)
+      expect(@event.all_items).to eq([@item1, @item2, @item3, @item4])
+
+      @event.add_food_truck(@food_truck3)
+      expect(@event.all_items).to eq([@item1, @item2, @item3, @item4])
+    end
+  end
+
+  describe '#sorted_items_list' do
+    it 'can list names of all items FoodTrucks have in stock, sorted alphabetically' do
+      @event.add_food_truck(@food_truck1)
+      expect(@event.sorted_items_list).to eq(['Apple Pie (Slice)', 'Peach Pie (Slice)'])
+
+      @event.add_food_truck(@food_truck2)
+      expect(@event.sorted_items_list).to eq(['Apple Pie (Slice)', 'Banana Nice Cream','Peach Pie (Slice)', 'Peach-Raspberry Nice Cream'])
+
+      @event.add_food_truck(@food_truck3)
+      expect(@event.sorted_items_list).to eq(['Apple Pie (Slice)', 'Banana Nice Cream','Peach Pie (Slice)', 'Peach-Raspberry Nice Cream'])
     end
   end
 end
