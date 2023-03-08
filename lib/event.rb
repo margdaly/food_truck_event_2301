@@ -24,6 +24,12 @@ class Event
     end.flatten.uniq
   end
 
+  def sorted_items_list
+    all_items.map do |item|
+      item.name
+    end.sort
+  end
+
   def overstocked_items
     
   end
