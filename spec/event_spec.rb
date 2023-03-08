@@ -61,16 +61,17 @@ RSpec.describe Event do
   end
 
   describe '#overstocked_items' do
-    xit 'can list items sold by more than 1 food truck AND total quantity greater than 50' do
+    it 'can list items sold by more than 1 food truck AND total quantity greater than 50' do
       @event.add_food_truck(@food_truck1)
       expect(@event.overstocked_items).to eq([])
 
       @event.add_food_truck(@food_truck2)
       @event.add_food_truck(@food_truck3)
       expect(@event.overstocked_items).to eq([@item1])
-
+      
       @food_truck2.stock(@item4, 10)
-      expect(@event.overstocked_items).to eq([@item1, @item4])
+      expect(@event.total_quantity(@item4)).to eq(60)
+      expect(@event.overstocked_items).to eq([@item1])
     end
   end
 
