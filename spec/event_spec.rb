@@ -139,4 +139,34 @@ RSpec.describe Event do
       expect(@event.total_quantity(@item1)).to eq(100)
     end
   end
+
+  describe '#sell' do
+    it 'returns false if does not have enough of item in stock to satisfy given quantity' do
+      @event.add_food_truck(@food_truck1)
+      @event.add_food_truck(@food_truck2)
+      @event.add_food_truck(@food_truck3)
+
+      expect(@event.sell(@item1, 101)).to eq(false)
+      expect(@event.sell(@item2, 10)).to eq(false)
+    end
+    
+    it 'returns true if enough item in stock to satisfy given quantity' do
+      @event.add_food_truck(@food_truck1)
+      @event.add_food_truck(@food_truck2)
+      @event.add_food_truck(@food_truck3)
+
+      expect(@event.sell(@item1, 100)).to eq(true)
+      expect(@event.sell(@item2, 5)).to eq(true)
+    end
+
+    it 'reduces stock of first added_food truck' do
+      @event.add_food_truck(@food_truck1)
+      @event.add_food_truck(@food_truck3)
+
+      @event.sell(@item1, 30)
+
+      expect(@event.food_trucks.first.inventory).to eq(({ @item1 => 5, @item2 => 7 }))
+      expect(@event.food_trucks.last.inventory).to eq({ @item1 => 65 })
+    end
+  end
 end
