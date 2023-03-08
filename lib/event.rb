@@ -37,11 +37,10 @@ class Event
   end
 
   def total_inventory
-    #{item => {'quantity' => total_quantity, 'food_trucks' => [food_trucks_that_sell_item]}}
-    #item = [['quantity', total_quantity], ['foodtrucks', foodtrucks_that_sell]].to_h
     all_items.map do |item|
-      item_details = ['quantity', ]
-    end
+      item_details = [['quantity', total_quantity(item)], ['food_trucks', food_trucks_that_sell(item)]].to_h
+      [item, item_details]
+    end.to_h
   end
 
   # def overstocked_items
