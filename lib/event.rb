@@ -5,4 +5,12 @@ class Event
     @name = name
     @food_trucks = []
   end
+
+  def add_food_truck(food_truck)
+    @food_trucks << food_truck
+  end
+
+  def food_trucks_names
+    @food_trucks.map { |food_truck| food_truck.name }
+  end
 end
